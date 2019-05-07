@@ -7,6 +7,7 @@ DOCKERFILE="support/docker/Dockerfile"
 SRC_DIR=./installs
 BPMS=jboss-bpmsuite-6.4.0.GA-deployable-eap7.x.zip
 EAP=jboss-eap-7.0.0-installer.jar
+JDBC=postgresql-42.2.5.jar
 VERSION=6.4
 
 # wipe screen.
@@ -68,8 +69,8 @@ cp support/docker/Dockerfile .
 
 echo Starting Docker build.
 echo
-
-docker build -t jbossdemocentral/bpms-install-demo .
+ 
+docker build -t localhost:5000/bpms:0.0.1 .
 
 if [ $? -ne 0 ]; then
         echo

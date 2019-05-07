@@ -47,6 +47,9 @@ USER root
 # Fix permissions on support files
 RUN chown -R 1000:1000 $BPMS_HOME/standalone/configuration/standalone.xml $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties
 
+# Copy JDBC
+ADD installs/postgresql $BPMS_HOME/modules/system/layers/base/org/postgresql
+
 # Run as JBoss
 USER 1000
 

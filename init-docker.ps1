@@ -11,6 +11,7 @@ $SRC_DIR="$PROJECT_HOME\installs"
 $SUPPORT_DIR="$PROJECT_HOME\support"
 $BPMS="jboss-bpmsuite-6.4.0.GA-deployable-eap7.x.zip"
 $EAP="jboss-eap-7.0.0-installer.jar"
+$JDBC="postgresql-42.2.5.jar"
 $VERSION="6.4"
 
 set NOPAUSE=true
@@ -63,7 +64,7 @@ Copy-Item "$SUPPORT_DIR\docker\Dockerfile" "$PROJECT_HOME" -force
 
 Write-Host "Starting Docker build.`n"
 
-$argList = "build -t jbossdemocentral/bpms-install-demo $PROJECT_HOME"
+$argList = "build -t localhost:5000/bpms:0.0.1 $PROJECT_HOME"
 $process = (Start-Process -FilePath docker.exe -ArgumentList $argList -Wait -PassThru -NoNewWindow)
 Write-Host "`n"
 
