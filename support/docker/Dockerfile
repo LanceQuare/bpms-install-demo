@@ -49,9 +49,6 @@ RUN chown -R 1000:1000 $BPMS_HOME/standalone/configuration/standalone.xml $BPMS_
 # Copy JDBC
 ADD installs/postgresql $BPMS_HOME/modules/system/layers/base/org/postgresql
 
-RUN chown 1000:1000 $BPMS_HOME
-VOLUME $BPMS_HOME
-
 # Run as JBoss
 USER 1000
 
