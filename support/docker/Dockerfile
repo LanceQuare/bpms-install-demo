@@ -16,6 +16,9 @@ ENV EAP_VERSION_MINOR 0
 ENV EAP_VERSION_MICRO 0
 #ENV EAP_VERSION_PATCH 4
 
+ARG user=bpms
+ARG group=bpms
+
 ENV EAP_INSTALLER=jboss-eap-$EAP_VERSION_MAJOR.$EAP_VERSION_MINOR.$EAP_VERSION_MICRO-installer.jar
 ENV BPMS_DEPLOYABLE=jboss-bpmsuite-$BPMS_VERSION_MAJOR.$BPMS_VERSION_MINOR.$BPMS_VERSION_MICRO.$BPMS_VERSION_PATCH-deployable-eap7.x.zip
 
@@ -36,8 +39,7 @@ RUN sed -i "s:<installpath>.*</installpath>:<installpath>$BPMS_HOME</installpath
 
 
 # Create users and add support files
-RUN $BPMS_HOME/bin/add-user.sh -a -r ApplicationRealm -u bpmsAdmin -p bpmsuite1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent \
-  && $BPMS_HOME/bin/add-user.sh -a -r ApplicationRealm -u erics -p bpmsuite1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent
+RUN $BPMS_HOME/bin/add-user.sh -a -r ApplicationRealm -u lance -p Sks*54321 -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent
 COPY support/standalone.xml $BPMS_HOME/standalone/configuration/
 COPY support/userinfo.properties $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/
 
@@ -49,6 +51,11 @@ RUN chown -R 1000:1000 $BPMS_HOME/standalone/configuration/standalone.xml $BPMS_
 
 # Copy JDBC
 ADD installs/postgresql $BPMS_HOME/modules/system/layers/base/org/postgresql
+
+RUN chown 1000:1000 $BPMS_HOME \
+  && groupadd -g 1000 ${group} \
+  && useradd -d "$BPMS_HOME" -u 1000 -g 1000 -m -s /bin/bash ${user}
+VOLUME $BPMS_HOME
 
 # Run as JBoss
 USER 1000
